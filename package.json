@@ -1,0 +1,15 @@
+{
+  "name": "todo-app-main",
+  "version": "1.0.0",
+  "description": "for frontendmentor challange",
+  "main": "tailwind.config.js",
+  "dependencies": {
+    "tailwindcss": "^3.0.22"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "npx tailwindcss -i ./src/css/main.css -o ./public/css/main.css --watch"
+  },
+  "author": "In'am Falahuddin",
+  "license": "ISC"
+}

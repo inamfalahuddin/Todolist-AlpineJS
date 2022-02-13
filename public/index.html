@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List | Frontend Mentor</title>
+    <link rel="stylesheet" href="./css/main.css" />
+    <script defer src="./js/alpine.js"></script>
+  </head>
+  <body
+    x-data="{theme: true, checkbok: false}"
+    :class="theme ? 'bg-[url(../images/bg-mobile-dark.jpg)] md:bg-[url(../images/bg-desktop-dark.jpg)] bg-dark-100 transition-all' : 'bg-[url(../images/bg-mobile-light.jpg)] md:bg-[url(../images/bg-desktop-light.jpg)] bg-light-100 transition-all'"
+    class="bg-center bg-contain bg-top bg-no-repeat px-10 md:py-10 font-josefin text-center"
+  >
+    <main
+      class="max-w-xl mx-auto my-10"
+      x-data="{todos: [], inputTodo: '', show: 'all'}"
+    >
+      <!-- header -->
+      <div
+        class="title text-left text-light-100 flex justify-between items-center mb-10"
+      >
+        <h1 class="uppercase text-3xl font-bold tracking-[15px]">todo</h1>
+        <img
+          :src="theme ? './images/icon-sun.svg' : './images/icon-moon.svg'"
+          class="cursor-pointer animate-fade-in"
+          @click="theme = !theme"
+        />
+      </div>
+      <!-- end header -->
+
+      <!-- user input -->
+      <div
+        class="rounded-md text-left px-5 py-3 mb-5 shadow-md"
+        :class="theme ? 'bg-dark-200 transition-all' : 'bg-light-100 transition-all'"
+        x-data="{selected: false}"
+      >
+        <form
+          class="flex items-center"
+          @submit.prevent="if(inputTodo.trim().length) todos.push({name: inputTodo, completed: selected}); inputTodo = ''"
+        >
+          <span
+            class="circle rounded-full w-6 h-6 inline-block cursor-pointer flex justify-center items-center"
+            :class="selected ? 'bg-primary-200 transition-all' : 'border border-light-300 transition-all'"
+            :class=""
+            @click="selected = !selected"
+          >
+            <img x-show="selected" src="./images/icon-check.svg" />
+          </span>
+          <input
+            type="text"
+            class="bg-transparent outline-none text-lg w-[80%] ml-5 pt-1"
+            :class="theme ? 'text-dark-300  ' : 'text-light-400'"
+            placeholder="Create a new todo ..."
+            x-model="inputTodo"
+          />
+        </form>
+      </div>
+      <!-- end user input -->
+
+      <!-- todo list -->
+      <div
+        class="rounded-md text-left mb-5 shadow-md"
+        :class="theme ? 'bg-dark-200 transition-all' : 'bg-light-100 transition-all'"
+        x-data="{dragStartIndex: 0, dragEndIndex: 0, indexHover: null, changePosition(a,b) {[todos[a], todos[b]] = [todos[b], todos[a]]}}"
+      >
+        <ul>
+          <template x-if="show == 'active'">
+            <template x-for="(todo, index) in todos">
+              <li
+                class="p-5 border-b border-light-300 flex justify-between items-center animate-slide-in"
+                draggable="true"
+                x-on:dragstart="dragStartIndex = index"
+                x-on:dragover.prevent="indexHover = index"
+                x-on:drop="dragEndIndex = index; changePosition(dragStartIndex, dragEndIndex); setTimeout(() => indexHover = null, 200)"
+                :class="
+                if(todo.completed) return 'hidden';
+                if(indexHover == index){if(theme){return 'bg-dark-700 text-dark-300 border-dark-700 animate-slide-in'}else {return 'bg-light-200 text-light-400 border-light-300 animate-slide-in'}}
+                if(theme){return 'text-dark-300 border-dark-700 transition-all'}else{return 'text-light-400 border-light-300 transition-all'};	
+                "
+              >
+                <div
+                  class="flex items-center"
+                  @click="todo.completed = !todo.completed"
+                >
+                  <span
+                    class="circle rounded-full w-6 h-6 inline-block cursor-pointer flex justify-center items-center"
+                    :class="todo.completed ? 'bg-primary-200 transition-all' : 'border border-light-300 transition-all'"
+                  >
+                    <img
+                      x-show="todo.completed"
+                      src="./images/icon-check.svg"
+                    />
+                  </span>
+                  <span
+                    class="relative top-1 ml-5"
+                    :class="
+                    if (theme && todo.completed) {
+                      return 'line-through text-dark-600'
+                    } else if (!theme && todo.completed) {
+                      return 'line-through text-light-300'
+                    }"
+                    x-text="todo.name"
+                  ></span>
+                </div>
+                <div
+                  class="cursor-pointer p-1"
+                  @click="todos = todos.filter((currentTodo) => currentTodo !== todo)"
+                >
+                  <img src="./images/icon-cross.svg" alt="" />
+                </div>
+              </li>
+            </template>
+          </template>
+          <template x-if="show == 'completed'">
+            <template x-for="(todo, index) in todos">
+              <li
+                class="p-5 border-b flex justify-between items-center animate-slide-in"
+                draggable="true"
+                x-on:dragstart="dragStartIndex = index"
+                x-on:dragover.prevent="indexHover = index"
+                x-on:drop="dragEndIndex = index; changePosition(dragStartIndex, dragEndIndex); setTimeout(() => indexHover = null, 200)"
+                :class="
+                if(!todo.completed) return 'hidden';
+                if(indexHover == index){if(theme){return 'bg-dark-700 text-dark-300 border-dark-700 animate-slide-in'}else {return 'bg-light-200 text-light-400 border-light-300 animate-slide-in'}};
+                if(theme){return 'text-dark-300 border-dark-700 transition-all'}else{return 'text-light-400 border-light-300 transition-all'};	
+                "
+              >
+                <div
+                  class="flex items-center"
+                  @click="todo.completed = !todo.completed"
+                >
+                  <span
+                    class="circle rounded-full w-6 h-6 inline-block cursor-pointer flex justify-center items-center"
+                    :class="todo.completed ? 'bg-primary-200 transition-all' : 'border border-light-300 transition-all'"
+                  >
+                    <img
+                      x-show="todo.completed"
+                      src="./images/icon-check.svg"
+                    />
+                  </span>
+                  <span
+                    class="relative top-1 ml-5"
+                    :class="
+                    if (theme && todo.completed) {
+                      return 'line-through text-dark-600'
+                    } else if (!theme && todo.completed) {
+                      return 'line-through text-light-300'
+                    }"
+                    x-text="todo.name"
+                  ></span>
+                </div>
+                <div
+                  class="cursor-pointer p-1"
+                  @click="todos = todos.filter((currentTodo) => currentTodo !== todo)"
+                >
+                  <img src="./images/icon-cross.svg" alt="" />
+                </div>
+              </li>
+            </template>
+          </template>
+          <template x-if="show == 'all'">
+            <template x-for="(todo, index) in todos">
+              <li
+                class="px-5 py-5 border-b flex justify-between items-center animate-slide-in"
+                draggable="true"
+                x-on:dragstart="dragStartIndex = index"
+                x-on:dragover.prevent="indexHover = index"
+                x-on:drop="dragEndIndex = index; changePosition(dragStartIndex, dragEndIndex); setTimeout(() => indexHover = null, 200)"
+                :class="
+                if(indexHover == index){if(theme){return 'bg-dark-700 text-dark-300 border-dark-700 animate-slide-in'}else {return 'bg-light-200 text-light-400 border-light-300 animate-slide-in'}}
+                if(theme){return 'text-dark-300 border-dark-700 transition-all'}else{return 'text-light-400 border-light-300 transition-all'};	
+                "
+              >
+                <div
+                  class="flex items-center"
+                  @click="todo.completed = !todo.completed"
+                >
+                  <span
+                    class="circle rounded-full w-6 h-6 inline-block cursor-pointer flex justify-center items-center"
+                    :class="todo.completed ? 'bg-primary-200 transition-all' : 'border border-light-300 transition-all'"
+                  >
+                    <img
+                      x-show="todo.completed"
+                      src="./images/icon-check.svg"
+                    />
+                  </span>
+                  <span
+                    class="relative top-1 ml-5"
+                    x-text="todo.name"
+                    :class="
+                    if (theme && todo.completed) {
+                      return 'line-through text-dark-600'
+                    } else if (!theme && todo.completed) {
+                      return 'line-through text-light-300'
+                    }"
+                  ></span>
+                </div>
+                <div
+                  class="cursor-pointer p-1"
+                  @click="todos = todos.filter((currentTodo) => currentTodo !== todo)"
+                >
+                  <img src="./images/icon-cross.svg" alt="" />
+                </div>
+              </li>
+            </template>
+          </template>
+        </ul>
+        <div class="pb-3 pt-5 px-5 flex justify-between items-center text-sm">
+          <span class="text-light-400"
+            ><span x-text="todos.filter(todo => !todo.completed).length"></span>
+            items left</span
+          >
+          <div
+            class="w-[50%] text-center cursor-pointer hidden md:inline-block"
+          >
+            <span
+              class="text-light-400 mx-[1.2%] cursor-pointer"
+              :class="if(show == 'all') { return 'text-primary-100 transition-all'}
+              if(theme) { return 'hover:text-dark-400 transition-all'} else {return 'hover:text-light-500 transition-all'}"
+              @click="show = 'all'"
+              >All</span
+            >
+            <span
+              class="text-light-400 mx-[1.2%] cursor-pointer"
+              :class="if(show == 'active') { return 'text-primary-100 transition-all'}
+              if(theme) { return 'hover:text-dark-400 transition-all'} else {return 'hover:text-light-500 transition-all'}"
+              @click="show = 'active'"
+              >Active</span
+            >
+            <span
+              class="text-light-400 mx-[1.2%] cursor-pointer"
+              :class="if(show == 'completed') { return 'text-primary-100 transition-all'}
+              if(theme) { return 'hover:text-dark-400 transition-all'} else {return 'hover:text-light-500 transition-all'}"
+              @click="show = 'completed'"
+              >Completed</span
+            >
+          </div>
+          <span
+            class="cursor-pointer text-light-400"
+            @click="todos = todos.filter(todo => !todo.completed)"
+            >Clear Completed</span
+          >
+        </div>
+      </div>
+      <!-- end todo list -->
+
+      <!-- bottom navigation -->
+      <div
+        class="rounded-md text-left p-3 pt-5 shadow-md text-center md:hidden"
+        :class="theme ? 'bg-dark-200' : 'bg-light-100'"
+      >
+        <span
+          class="text-light-400 mx-[1.2%] cursor-pointer"
+          :class="if(show == 'all') { return 'text-primary-100 transition-all'}
+          if(theme) { return 'hover:text-dark-400 transition-all'} else {return 'hover:text-light-500 transition-all'}"
+          @click="show = 'all'"
+          >All</span
+        >
+        <span
+          class="text-light-400 mx-[1.2%] cursor-pointer"
+          :class="if(show == 'active') { return 'text-primary-100 transition-all'}
+          if(theme) { return 'hover:text-dark-400 transition-all'} else {return 'hover:text-light-500 transition-all'}"
+          @click="show = 'active'"
+          >Active</span
+        >
+        <span
+          class="text-light-400 mx-[1.2%] cursor-pointer"
+          :class="if(show == 'completed') { return 'text-primary-100 transition-all'}
+          if(theme) { return 'hover:text-dark-400 transition-all'} else {return 'hover:text-light-500 transition-all'}"
+          @click="show = 'completed'"
+          >Completed</span
+        >
+      </div>
+      <!-- end bottom navigation -->
+
+      <p class="text-light-400 my-14 inline-block">
+        Drag and drop to reorder list
+      </p>
+    </main>
+    <div
+      class="attribution"
+      :class="theme ? 'text-dark-500' : 'text-light-400'"
+    >
+      Challenge by
+      <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+        >Frontend Mentor</a
+      >. Coded by
+      <a href="https://www.fiverr.com/inamfalahuddin" target="_blank"
+        >In'am Falahuddin</a
+      >.
+    </div>
+  </body>
+</html>

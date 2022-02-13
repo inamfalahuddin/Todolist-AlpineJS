@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List | Frontend Mentor</title>
+    <link rel="stylesheet" href="./css/main.css" />
+    <script defer src="./js/alpine.js"></script>
+  </head>
+  <body>
+    <body
+      x-data="{theme: false, checkbok: false}"
+      :class="theme ? 'bg-[url(../images/bg-mobile-dark.jpg)] md:bg-[url(../images/bg-desktop-dark.jpg)] transition-all' : 'bg-[url(../images/bg-mobile-light.jpg)] md:bg-[url(../images/bg-desktop-light.jpg)] transition-all'"
+      class="bg-center bg-contain bg-top bg-no-repeat px-10 md:py-10 font-josefin text-center bg-light-100"
+    >
+      <main class="max-w-xl mx-auto my-10" x-data="{todos: [], inputTodo: ''}">
+        <!-- header -->
+        <div
+          class="title text-left text-light-100 flex justify-between items-center mb-10"
+        >
+          <h1 class="uppercase text-3xl font-bold tracking-[15px]">todo</h1>
+          <img
+            :src="theme ? './images/icon-sun.svg' : './images/icon-moon.svg'"
+            class="cursor-pointer animate-fade-in"
+            @click="theme = !theme"
+          />
+        </div>
+        <!-- end header -->
+
+        <!-- user input -->
+        <div class="bg-white rounded-md text-left px-5 py-3 mb-5 shadow-md">
+          <form class="flex items-center">
+            <span
+              class="circle rounded-full w-6 h-6 inline-block cursor-pointer flex justify-center items-center"
+              :class="checkbok ? 'bg-primary-200 transition-all' : 'border border-light-300 transition-all'"
+              @click="checkbok = !checkbok"
+            >
+              <img x-show="checkbok" src="./images/icon-check.svg" />
+            </span>
+            <input
+              type="text"
+              class="bg-transparent outline-none text-lg w-[80%] ml-5 pt-1"
+              placeholder="Create a new todo ..."
+            />
+          </form>
+        </div>
+        <!-- end user input -->
+
+        <!-- todo list -->
+        <div class="bg-white rounded-md text-left py-2 mb-5 shadow-md">
+          <ul>
+            <li
+              class="px-5 py-2 border-b border-light-300 flex justify-between items-center"
+            >
+              <div class="flex items-center">
+                <span
+                  class="circle rounded-full w-6 h-6 inline-block cursor-pointer flex justify-center items-center"
+                  :class="checkbok ? 'bg-primary-200 transition-all' : 'border border-light-300 transition-all'"
+                  @click="checkbok = !checkbok"
+                >
+                  <img x-show="checkbok" src="./images/icon-check.svg" />
+                </span>
+                <span class="relative top-1 ml-5">Hello World</span>
+              </div>
+              <div class="cursor-pointer p-1">
+                <img src="./images/icon-cross.svg" alt="" />
+              </div>
+            </li>
+          </ul>
+          <div class="pb-3 pt-5 px-5 flex justify-between items-center text-sm">
+            <span class="text-light-400">5 items left</span>
+            <span class="cursor-pointer text-light-400">Clear Completed</span>
+          </div>
+        </div>
+        <!-- end todo list -->
+
+        <!-- bottom navigation -->
+        <div class="bg-white rounded-md text-left p-5 mb-5 shadow-md">
+          makan nasi
+        </div>
+        <!-- end bottom navigation -->
+      </main>
+
+      <div class="attribution">
+        Challenge by
+        <a href="https://www.frontendmentor.io?ref=challenge" target="_blank"
+          >Frontend Mentor</a
+        >. Coded by <a href="#">Your Name Here</a>.
+      </div>
+  </body>
+</html>
