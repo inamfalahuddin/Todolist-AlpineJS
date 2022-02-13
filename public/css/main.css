@@ -667,6 +667,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: hsl(236 33% 92% / var(--tw-bg-opacity));
 }
 
+.bg-primary-100{
+  --tw-bg-opacity: 1;
+  background-color: hsl(220 98% 61% / var(--tw-bg-opacity));
+}
+
 .bg-\[url\(\.\.\/images\/bg-mobile-dark\.jpg\)\]{
   background-image: url(../images/bg-mobile-dark.jpg);
 }
@@ -793,11 +798,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: hsl(236 9% 61% / var(--tw-text-opacity));
 }
 
-.text-dark-500{
-  --tw-text-opacity: 1;
-  color: hsl(234 11% 52% / var(--tw-text-opacity));
-}
-
 .text-dark-600{
   --tw-text-opacity: 1;
   color: hsl(233 14% 35% / var(--tw-text-opacity));
@@ -811,6 +811,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-primary-100{
   --tw-text-opacity: 1;
   color: hsl(220 98% 61% / var(--tw-text-opacity));
+}
+
+.text-dark-500{
+  --tw-text-opacity: 1;
+  color: hsl(234 11% 52% / var(--tw-text-opacity));
 }
 
 .line-through{
@@ -835,14 +840,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .transition-all{
   transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-.transition{
-  transition-property: color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }

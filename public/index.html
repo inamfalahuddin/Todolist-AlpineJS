@@ -63,7 +63,7 @@
       <div
         class="rounded-md text-left mb-5 shadow-md"
         :class="theme ? 'bg-dark-200 transition-all' : 'bg-light-100 transition-all'"
-        x-data="{dragStartIndex: 0, dragEndIndex: 0, indexHover: null, changePosition(a,b) {[todos[a], todos[b]] = [todos[b], todos[a]]}}"
+        x-data="{dragStartIndex: 0, dragEndIndex: 0, indexHover: null, btnCross: null, changePosition(a,b) {[todos[a], todos[b]] = [todos[b], todos[a]]}}"
       >
         <ul>
           <template x-if="show == 'active'">
@@ -79,6 +79,7 @@
                 if(indexHover == index){if(theme){return 'bg-dark-700 text-dark-300 border-dark-700 animate-slide-in'}else {return 'bg-light-200 text-light-400 border-light-300 animate-slide-in'}}
                 if(theme){return 'text-dark-300 border-dark-700 transition-all'}else{return 'text-light-400 border-light-300 transition-all'};	
                 "
+                @mouseover="btnCross = index"
               >
                 <div
                   class="flex items-center"
@@ -106,6 +107,7 @@
                 </div>
                 <div
                   class="cursor-pointer p-1"
+                  :class="btnCross == index ? 'animate-fade-in md:inline-block' : 'md:hidden'"
                   @click="todos = todos.filter((currentTodo) => currentTodo !== todo)"
                 >
                   <img src="./images/icon-cross.svg" alt="" />
@@ -126,6 +128,7 @@
                 if(indexHover == index){if(theme){return 'bg-dark-700 text-dark-300 border-dark-700 animate-slide-in'}else {return 'bg-light-200 text-light-400 border-light-300 animate-slide-in'}};
                 if(theme){return 'text-dark-300 border-dark-700 transition-all'}else{return 'text-light-400 border-light-300 transition-all'};	
                 "
+                @mouseover="btnCross = index"
               >
                 <div
                   class="flex items-center"
@@ -153,6 +156,7 @@
                 </div>
                 <div
                   class="cursor-pointer p-1"
+                  :class="btnCross == index ? 'animate-fade-in md:inline-block' : 'md:hidden'"
                   @click="todos = todos.filter((currentTodo) => currentTodo !== todo)"
                 >
                   <img src="./images/icon-cross.svg" alt="" />
@@ -172,6 +176,7 @@
                 if(indexHover == index){if(theme){return 'bg-dark-700 text-dark-300 border-dark-700 animate-slide-in'}else {return 'bg-light-200 text-light-400 border-light-300 animate-slide-in'}}
                 if(theme){return 'text-dark-300 border-dark-700 transition-all'}else{return 'text-light-400 border-light-300 transition-all'};	
                 "
+                @mouseover="btnCross = index"
               >
                 <div
                   class="flex items-center"
@@ -199,6 +204,7 @@
                 </div>
                 <div
                   class="cursor-pointer p-1"
+                  :class="btnCross == index ? 'animate-fade-in md:inline-block' : 'md:hidden'"
                   @click="todos = todos.filter((currentTodo) => currentTodo !== todo)"
                 >
                   <img src="./images/icon-cross.svg" alt="" />
